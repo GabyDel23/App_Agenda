@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }} Index
+{% endblock %}
+
+{% block usuario %}
+{{ session['name'] }}
+{% endblock %}
+
+{% block content %}
+<br>
+<form method="post">
+    <div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <div>
+        <label for="primer_app">Primer Apellido:</label>
+        <input type="text" id="primer_app" name="primer_app" required>
+    </div>
+    <div>
+        <label for="segundo_apm">Segundo Apellido:</label>
+        <input type="text" id="segundo_apm" name="segundo_apm" required>
+    </div>
+    <div>
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" required>
+    </div>
+    <button type="submit">Agregar Contacto</button>
+</form>
+<br>  
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Primer Apellido</th>
+          <th>Segundo Apellido</th>
+          <th>Teléfono</th>
+          <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+          {% for agenda in lista_Contact %}
+
+          <tr>
+              <td>{{ agenda.id }}</td>
+              <td>{{ agenda.nombre }}</td>
+              <td>{{ agenda.primer_app }}</td>
+              <td>{{ agenda.segundo_apm }}</td>
+              <td>{{ agenda.telefono }}</td>
+              <td>
+                <a href="{{ url_for('update_task', id=agenda.id) }}">
+                  <button type="button" class="btn btn-success">Modificar</button>
+              </a>
+              <a href="{{ url_for('delete_task', id=agenda.id) }}">
+                  <button type="button" class="btn btn-danger">Eliminar</button>
+              </a>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+{% endblock %}

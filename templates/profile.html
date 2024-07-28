@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{super() }}  Ver Perfil
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="container">
+    <h1>Perfil de Usuario</h1>
+    <p><strong>Nombre de Usuario:</strong> {{ user.nombre }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <a href="{{ url_for('change_password') }}" class="btn btn-warning">Cambiar Contraseña</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+</div>
+   
+{% endblock %}

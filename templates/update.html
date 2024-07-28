@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }} Update
+{% endblock %}
+
+{% block usuario %}
+{{ session['name'] }}
+{% endblock %}
+
+{% block content %}
+<h1>Modificar Contacto</h1>
+<form method="post">
+    <div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ contact.nombre }}" required>
+    </div>
+    <div>
+        <label for="primer_app">Primer Apellido:</label>
+        <input type="text" id="primer_app" name="primer_app" value="{{ contact.primer_app }}" required>
+    </div>
+    <div>
+        <label for="segundo_apm">Segundo Apellido:</label>
+        <input type="text" id="segundo_apm" name="segundo_apm" value="{{ contact.segundo_apm }}" required>
+    </div>
+    <div>
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" value="{{ contact.telefono }}" required>
+    </div>
+    <button type="submit">Guardar Cambios</button>
+</form>
+{% endblock %}
