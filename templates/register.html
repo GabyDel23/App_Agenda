@@ -1,9 +1,32 @@
 {% extends 'base.html' %}
 
-
-{% block title %}Registro{% endblock %}
+{% block title %}
+{{ super() }} Registro
+{% endblock %}
 
 {% block content %}
+<style>
+    body {
+        background-image: url('https://i.pinimg.com/originals/b6/61/3e/b6613eca666a3f46dd1df2894f78768e.jpg'); /* Asegúrate de que la ruta a la imagen sea correcta */
+        background-size: cover;
+        background-position: center;
+    }
+    .container {
+        background-color: rgba(220, 180, 255, 0.5); /* Melocotón con mayor transparencia */
+        padding: 75px;
+        border-radius: 30px;
+        max-width: 750px;
+        margin: auto;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .btn-primary {
+        background-color: #766c7d; /* Puedes cambiar el color del botón si lo deseas */
+        border-color: #766c7d;
+    }
+</style>
+
 <div class="container">
     <h1>Registro</h1>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -16,19 +39,18 @@
     <form method="post">
         <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" class="form-control" required>
+            <input type="text" name="nombre" id="nombre" class="form-control" required aria-required="true">
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" name="email" class="form-control" required>
+            <input type="email" name="email" id="email" class="form-control" required aria-required="true">
         </div>
         <div class="form-group">
             <label for="password">Contraseña:</label>
-            <input type="password" name="password" class="form-control" required>
+            <input type="password" name="password" id="password" class="form-control" required aria-required="true">
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Registrar</button>
     </form>
 </div>
-   
-{% endblock content %}
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ super() }} Update
+{{ super() }} Modificar Contacto
 {% endblock %}
 
 {% block usuario %}
@@ -9,24 +9,49 @@
 {% endblock %}
 
 {% block content %}
-<h1>Modificar Contacto</h1>
-<form method="post">
-    <div>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="{{ contact.nombre }}" required>
-    </div>
-    <div>
-        <label for="primer_app">Primer Apellido:</label>
-        <input type="text" id="primer_app" name="primer_app" value="{{ contact.primer_app }}" required>
-    </div>
-    <div>
-        <label for="segundo_apm">Segundo Apellido:</label>
-        <input type="text" id="segundo_apm" name="segundo_apm" value="{{ contact.segundo_apm }}" required>
-    </div>
-    <div>
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" value="{{ contact.telefono }}" required>
-    </div>
-    <button type="submit">Guardar Cambios</button>
-</form>
-{% endblock %}
+<style>
+    body {
+        background-image: url('https://i.pinimg.com/originals/b6/61/3e/b6613eca666a3f46dd1df2894f78768e.jpg'); /* Asegúrate de que la ruta a la imagen sea correcta */
+        background-size: cover;
+        background-position: center;
+    }
+    .container {
+        background-color: rgba(220, 180, 255, 0.5); /* Melocotón con mayor transparencia */
+        padding: 75px;
+        border-radius: 30px;
+        max-width: 750px;
+        margin: auto;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .btn-primary {
+        background-color: #0c0fed7d; /* Puedes cambiar el color del botón si lo deseas */
+        border-color: #0c0fed7d;
+    }
+</style>
+
+<div class="container">
+    <h1>Modificar Contacto</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" value="{{ contact.nombre }}" required aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="primer_app">Primer Apellido:</label>
+            <input type="text" id="primer_app" name="primer_app" class="form-control" value="{{ contact.primer_app }}" required aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="segundo_apm">Segundo Apellido:</label>
+            <input type="text" id="segundo_apm" name="segundo_apm" class="form-control" value="{{ contact.segundo_apm }}" required aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" class="form-control" value="{{ contact.telefono }}" required aria-required="true">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+{% endblock %}

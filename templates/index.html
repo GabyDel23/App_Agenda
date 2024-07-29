@@ -9,59 +9,157 @@
 {% endblock %}
 
 {% block content %}
-<br>
-<form method="post">
-    <div>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-    </div>
-    <div>
-        <label for="primer_app">Primer Apellido:</label>
-        <input type="text" id="primer_app" name="primer_app" required>
-    </div>
-    <div>
-        <label for="segundo_apm">Segundo Apellido:</label>
-        <input type="text" id="segundo_apm" name="segundo_apm" required>
-    </div>
-    <div>
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" required>
-    </div>
-    <button type="submit">Agregar Contacto</button>
-</form>
-<br>  
-<div class="container">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-          <th>Id</th>
-          <th>Nombre</th>
-          <th>Primer Apellido</th>
-          <th>Segundo Apellido</th>
-          <th>Teléfono</th>
-          <th>Acciones</th>
-      </tr>
-      </thead>
-      <tbody>
-          {% for agenda in lista_Contact %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: url('https://i.pinimg.com/originals/b6/61/3e/b6613eca666a3f46dd1df2894f78768e.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        width: 100%;
+        margin: auto;
+        overflow: hidden;
+        background-color: rgba(220, 180, 255, 0.5); /*  Melocotón con mayor Transparencia */
+        border-radius: 8px;
+        padding: 20px;
+    }
 
-          <tr>
-              <td>{{ agenda.id }}</td>
-              <td>{{ agenda.nombre }}</td>
-              <td>{{ agenda.primer_app }}</td>
-              <td>{{ agenda.segundo_apm }}</td>
-              <td>{{ agenda.telefono }}</td>
-              <td>
-                <a href="{{ url_for('update_task', id=agenda.id) }}">
-                  <button type="button" class="btn btn-success">Modificar</button>
-              </a>
-              <a href="{{ url_for('delete_task', id=agenda.id) }}">
-                  <button type="button" class="btn btn-danger">Eliminar</button>
-              </a>
-              </td>
-          </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+    .form-container, .table-container {
+        background: rgba(220, 180, 255, 0.5); /*  Melocotón con mayor Transparencia */;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    form {
+        margin: 0;
+    }
+
+    label {
+        display: block;
+        margin: 10px 0 5px;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    .btn-success {
+        background-color: #0c0fedf2;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    .btn-success:hover {
+        background-color: #0c0fedf2;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table th {
+        background: #f4f4f4;
+    }
+
+    .table-striped tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    .table-striped tr:hover {
+        background: #e9ecef;
+    }
+</style>
+
+<div class="container">
+  <div class="form-container">
+    <h2>Agregar Nuevo Contacto</h2>
+    <form method="post">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+            <label for="primer_app">Primer Apellido:</label>
+            <input type="text" id="primer_app" name="primer_app" required>
+        </div>
+        <div>
+            <label for="segundo_apm">Segundo Apellido:</label>
+            <input type="text" id="segundo_apm" name="segundo_apm" required>
+        </div>
+        <div>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" required>
+        </div>
+        <button type="submit" class="btn btn-success">Agregar Contacto</button>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Primer Apellido</th>
+                <th>Segundo Apellido</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agenda in lista_Contact %}
+            <tr>
+                <td>{{ agenda.id }}</td>
+                <td>{{ agenda.nombre }}</td>
+                <td>{{ agenda.primer_app }}</td>
+                <td>{{ agenda.segundo_apm }}</td>
+                <td>{{ agenda.telefono }}</td>
+                <td>
+                    <a href="{{ url_for('update_task', id=agenda.id) }}">
+                        <button type="button" class="btn btn-success">Modificar</button>
+                    </a>
+                    <a href="{{ url_for('delete_task', id=agenda.id) }}">
+                        <button type="button" class="btn btn-danger">Eliminar</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

@@ -1,76 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Inicio de Sesión</title>
-        <link rel="icon" type="imagen/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-image: url('https://github.com/GabyDel23/logo/blob/main/imagen.jpg?raw=true');
-                background-size: cover;
-                display: flex;
-                justify-content: flex-start; /* Alinea el contenedor a la izquierda */
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-            .login-container {
-                background-color: rgba(0, 128, 128, 0.8);
-                padding: 20px;
-                border-radius: 10px;
-                width: 300px;
-                text-align: center;
-                margin-left: 20px; /* Agrega un margen izquierdo para centrar el formulario */
-            }
-            .login-container h2 {
-                color: white;
-            }
-            .login-container input {
-                width: 100%;
-                padding: 10px;
-                margin: 10px 0;
-                border: none;
-                border-radius: 5px;
-            }
-            .login-container button {
-                width: 100%;
-                padding: 10px;
-                background-color: #006666;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-            .login-container a {
-                color: white;
-                text-decoration: none;
-                display: block;
-                margin-top: 10px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="login-container">
-            <h2>Inicio de Sesión</h2>
-                {% if error %}
-                <div class="alert alert-danger" role="alert">
-                    USUARIO O CLAVE INCORRECTA, INTENTE DE NUEVO!
-                </div>
-                {% endif %}
-                <form method="post">
-                    <label for="email">Correo Electrónico:</label>
-                    <input type="email" id="email" name="email" required>
-                    <br>
-                    <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required>
-                    <br>
-                <button>Iniciar Sesión</button>
-            </form>
-            <a href="{{ url_for('register') }}" class="btn btn-success mt-2">Registrarse</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <link rel="icon" type="imagen/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://github.com/GabyDel23/logo/blob/main/imagen.jpg?raw=true');
+            background-size: cover;
+            display: flex;
+            justify-content: flex-start; /* Alinea el contenedor a la izquierda */
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: rgba(0, 128, 128, 0.858);
+            padding: 30px;
+            border-radius: 0 0 100px 100px; /* Bordes redondeados en la parte inferior */
+            width: 300px;
+            text-align: center;
+            position: absolute; /* Posiciona el contenedor */
+            top: 0px; /* Distancia desde la parte superior */
+            left: 150px; /* Distancia desde la izquierda */
+        }
+        .login-container img {
+            width: 80px; /* Ajusta el tamaño de la imagen */
+            height: 80px; /* Ajusta el tamaño de la imagen */
+            border-radius: 50%; /* Hace que la imagen sea circular */
+            margin-bottom: 10px; /* Espacio entre la imagen y el título */
+        }
+        .login-container h2 {
+            color: white;
+            margin-top: 0; /* Elimina el margen superior */
+        }
+        .login-container input {
+            width: 100%;
+            padding: 5px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 5px;
+            background-color: #006666;
+            color: white;
+            border: none;
+            border-radius: 5px; /* Bordes redondeados en el botón */
+            cursor: pointer;
+        }
+        .login-container a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="https://github.com/GabyDel23/logo/blob/main/logiman.png?raw=true?raw=true" alt="Logo"> <!-- Imagen encima del título -->
+        <h2>Inicio de Sesión</h2>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            USUARIO O CLAVE INCORRECTA, INTENTE DE NUEVO!
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </body>
+        {% endif %}
+        <form method="post">
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <a href="{{ url_for('register') }}" class="btn btn-success mt-2">Registrarse</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
 </html>

@@ -20,20 +20,23 @@ class Contact(db.Model):
     primer_app=db.Column(db.Text,nullable=False)
     segundo_apm=db.Column(db.Text,nullable=False)
     telefono=db.Column(db.Text,nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Relación con User
 
     
 with app.app_context():
     db.create_all()
-    try:
-        obj=User(email='Gabrieladelgado@gmail.com', password='12345',nombre='Gabriela Delgado')
-        db.session.add(obj)
-        db.session.commit()
-    except:
-        pass
-
+    #try:
+        #obj=User(email='Gabrieladelgado@gmail.com', password='12345',nombre='Gabriela Delgado')
+        #db.session.add(obj)
+        #db.session.commit()
+    #except:
+        #pass
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))  # Redirigir si no hay sesión activa
+
     if request.method == 'POST':
         nombre = request.form.get('nombre')
         primer_app = request.form.get('primer_app')
@@ -41,38 +44,47 @@ def index():
         telefono = request.form.get('telefono')
 
         if nombre and primer_app and segundo_apm and telefono:
-            obj = Contact(nombre=nombre, primer_app=primer_app, segundo_apm=segundo_apm, telefono=telefono)
+            obj = Contact(
+                nombre=nombre,
+                primer_app=primer_app,
+                segundo_apm=segundo_apm,
+                telefono=telefono,
+                user_id=session['user_id']  # Asocia el contacto con el usuario actual
+            )
             db.session.add(obj)
             db.session.commit()
-            #♠Flask('Contacto agregado exitosamente', 'session')
-
-    lista_Contact = Contact.query.all()
+    # Obtener solo los contactos del usuario actual
+    lista_Contact = Contact.query.filter_by(user_id=session['user_id']).all()
     return render_template('index.html', lista_Contact=lista_Contact)
-     
+
+  
 
 # Rutas Seguras
 @app.route("/change_password", methods=['GET', 'POST'])
 def change_password():
     if 'user_id' not in session:
         return redirect(url_for('login'))  # Redirigir si no hay sesión activa
-
     if request.method == 'POST':
         current_password = request.form['current_password']
         new_password = request.form['new_password']
-        
         # Obtener el usuario actual
         user = User.query.get(session['user_id'])
-        
         # Verificar la contraseña actual
-        if user and user.password == current_password:  # Aquí deberías usar un método seguro para comparar contraseñas
-            user.password = new_password  # Almacenar la nueva contraseña en texto plano
+        if user and user.password == current_password:
+            user.password = new_password  # Actualizar la contraseña
             db.session.commit()
             return redirect(url_for('index'))
         else:
             return render_template('change_password.html')
 
+    return render_template('change_password.html')
+    
+
 @app.route("/add", methods=['GET', 'POST'])
 def add_task():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))  # Redirigir si no hay sesión activa
+
     if request.method == 'POST':
         nombre = request.form.get('nombre')
         primer_app = request.form.get('primer_app')
@@ -80,18 +92,27 @@ def add_task():
         telefono = request.form.get('telefono')
 
         if nombre and primer_app and segundo_apm and telefono:
-            obj = Contact(nombre=nombre, primer_app=primer_app, segundo_apm=segundo_apm, telefono=telefono)
+            obj = Contact(
+                nombre=nombre,
+                primer_app=primer_app,
+                segundo_apm=segundo_apm,
+                telefono=telefono,
+                user_id=session['user_id']  # Asocia el contacto con el usuario actual
+            )
             db.session.add(obj)
             db.session.commit()
-            #Flask('Contacto agregado exitosamente', 'session')
             return redirect(url_for('index'))
 
     return render_template('add.html')
 
 
+
 @app.route("/update/<int:id>", methods=['GET', 'POST'])
 def update_task(id):
     obj = Contact.query.get(id)
+    if obj.user_id != session['user_id']:
+        return redirect(url_for('index'))  # Redirigir si el contacto no pertenece al usuario
+
     if request.method == 'POST':
         # Obtener los nuevos valores del formulario
         obj.nombre = request.form['nombre']
@@ -100,18 +121,20 @@ def update_task(id):
         obj.telefono = request.form['telefono']
         # Guardar cambios en la base de datos
         db.session.commit()
-        return redirect(url_for('index')) 
-    # Si el método es GET, renderizar el formulario de edición
+        return redirect(url_for('index'))
+
     return render_template('update.html', contact=obj)
+
 
 
 @app.route("/delete/<int:id>")
 def delete_task(id):
     contact = Contact.query.get(id)
-    if contact:
+    if contact and contact.user_id == session['user_id']:  # Verifica que el contacto pertenezca al usuario
         db.session.delete(contact)
         db.session.commit()
     return redirect(url_for('index'))
+
 
 @app.route("/profile")
 def profile():
